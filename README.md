@@ -1,36 +1,40 @@
-# Semantic Segmentation
-### Introduction
-In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
+# Semantic Segmentation Project
+This is a project for Udacity Self-Driving Car Nanodegree program. In this project, I implemented free space searching algorithm on the road image based on the semantic segmentation technique. All codes are written on the iPython notebook. 
 
-### Setup
-##### Frameworks and Packages
-Make sure you have the following is installed:
- - [Python 3](https://www.python.org/)
- - [TensorFlow](https://www.tensorflow.org/)
- - [NumPy](http://www.numpy.org/)
- - [SciPy](https://www.scipy.org/)
-##### Dataset
-Download the [Kitti Road dataset](http://www.cvlibs.net/datasets/kitti/eval_road.php) from [here](http://www.cvlibs.net/download.php?file=data_road.zip).  Extract the dataset in the `data` folder.  This will create the folder `data_road` with all the training a test images.
+## Requirement 
+- Python 3.0 >
+- Tensorflow 1.0 >
+- Numpy
+- Scipy
+- [Kitty Road Dataset](http://www.cvlibs.net/download.php?file=data_road.zip) 
+  
+## Run the Project 
+Download the Kitti Road dataset. Extract the dataset in the 'data' folder. This will create the folder data_road with all the training a test images. Open the 'semantic_segmentation.ipynb' file and run it sequencially. 
 
-### Start
-##### Implement
-Implement the code in the `main.py` module indicated by the "TODO" comments.
-The comments indicated with "OPTIONAL" tag are not required to complete.
-##### Run
-Run the following command to run the project:
-```
-python main.py
-```
-**Note** If running this in Jupyter Notebook system messages, such as those regarding test status, may appear in the terminal rather than the notebook.
+## My Project Implementation
+1) Neural Network Architecture  
+- I used FCN-8 encoder/decoder architecture. I loaded pretrained VGG16 model into tensorflow followed by 1 by 1 convolution for spartial information. Then, I created the layers for a FCN (Fully Convolutional Network) using deconvolution and skip connection technique. For the detailed undertanding, please refer to below architecture image which I used in this project. 
+![Test image](https://github.com/KHKANG36/Semantic-Segmentation/blob/master/FCN%20for%20Semantic%20Seg.gif)
 
-### Submission
-1. Ensure you've passed all the unit tests.
-2. Ensure you pass all points on [the rubric](https://review.udacity.com/#!/rubrics/989/view).
-3. Submit the following in a zip file.
- - `helper.py`
- - `main.py`
- - `project_tests.py`
- - Newest inference images from `runs` folder  (**all images from the most recent run**)
+2) Parameters 
+- I used 30 Epochs & 8 batches for the neural network training in this project. 8 batches is the best fitting number for my system environment. When I used 30 epochs, the loss goes down from 5.0 to 0.02 even though there are ups and downs of losses between the epochs. If I use more than 30 epochs, the network was overfitted, and caused more errors to training images. Finally, I found that learning rate was optimal when it was 0.0001.     
+
+3) Image Augmentations  
+ - I implemented this in the helper.py. I used mainly 2 techniques. First, I used image rotation and expansion/shrinking technique. Second, I used the brightness control technique for the images. Then, I added those images to the training set, which made 2x image numbers for training. When I compared the result, image augmentation showed better accuracy, especially when there are dark shades on the images. 
  
- ## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+## Project Result
+1) KITTY road segmentation test images
+- Mostly, it could separate road from non-road area even though there are a couple of minor errors  
+![Test image](https://github.com/KHKANG36/Semantic-Segmentation/blob/master/runs/1509770087.947018/um_000005.png)
+![Test image](https://github.com/KHKANG36/Semantic-Segmentation/blob/master/runs/1509770087.947018/um_000007.png)
+![Test image](https://github.com/KHKANG36/Semantic-Segmentation/blob/master/runs/1509770087.947018/um_000015.png)
+![Test image](https://github.com/KHKANG36/Semantic-Segmentation/blob/master/runs/1509770087.947018/umm_000008.png)
+![Test image](https://github.com/KHKANG36/Semantic-Segmentation/blob/master/runs/1509770087.947018/umm_000035.png)
+
+2) Recored road video
+- I applied the trained model to the real road video. It showed good performance. You can see the full video in my repo. 
+![Test image](https://github.com/KHKANG36/Semantic-Segmentation/blob/master/video1.png)
+![Test image](https://github.com/KHKANG36/Semantic-Segmentation/blob/master/video2.png)
+
+## Discussion/Plan
+I will apply this model to 'CityScape Dataset' which requires more complex segmentation!!!! 
